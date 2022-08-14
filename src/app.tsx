@@ -1,13 +1,13 @@
 import { User } from "firebase/auth";
 import React from "react";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "./components/loading";
 
 import { subscribeToUser } from "./firebase";
 
-const Dashboard = React.lazy(() => import("./components/dashboard"));
-const Login = React.lazy(() => import("./components/login"));
+import Dashboard from "./components/dashboard";
+import Login from "./components/login";
 
 const App = () => {
   const [user, setUser] = useState<User | undefined | null>(undefined);
@@ -21,18 +21,10 @@ const App = () => {
   }
 
   if (user) {
-    return (
-      <Suspense fallback={<Loading />}>
-        <Dashboard user={user} />
-      </Suspense>
-    );
+    return <Dashboard user={user} />;
   }
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <Login user={user} />
-    </Suspense>
-  );
+  return <Login user={user} />;
 };
 
 export default App;
